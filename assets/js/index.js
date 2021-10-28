@@ -1,19 +1,27 @@
 'use strict';
 
-const imagesDB = [
-  'https://karma-kollection.com/wp-content/uploads/2018/05/magical-banner.jpg',
-  'https://fanaticcook.files.wordpress.com/2021/04/animals.jpg',
-];
+function initializeToggle({ imagesDB, imgSelector, btnSelector }) {
+  const img = document.querySelector(imgSelector);
+  const btn = document.querySelector(btnSelector);
+  let clickCounter = 0;
 
-const srcAttr = document.createAttribute('src');
-srcAttr.value = imagesDB[0];
+  const toggleEvent = (e) => {
+    img.setAttribute(
+      'src',
+      imagesDB[clickCounter++ % imagesDB.length]
+    );
+  };
 
-const img = document.querySelector('.wrapper>img');
-const btn = document.querySelector('.wrapper>button');
+  btn.addEventListener('click', toggleEvent);
+  btn.dispatchEvent(new Event('click'));
+}
 
-const toggleEvent = (e) => {
-  srcAttr.value = imagesDB[0];
-  img.setAttributeNode(srcAttr);
+const options = {
+  imagesDB: [
+    'https://karma-kollection.com/wp-content/uploads/2018/05/magical-banner.jpg',
+    'https://thypix.com/wp-content/uploads/2018/05/Sommerlandschaft-Bilder-1.jpg',
+  ],
+  imgSelector: '.wrapper>img',
+  btnSelector: '.wrapper>button',
 };
-
-btn.addEventListener('click', toggleEvent);
+initializeToggle(options);
